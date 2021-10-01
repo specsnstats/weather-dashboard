@@ -16,7 +16,7 @@ function getApi(coordsSource) {
     var APIKey = "eef440075f231dabd98329edc16d0dae";
     var city = searchBtnText.val();
     console.log(city);
-    var coordsSource = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+    var coordsSource = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
 // fetch the location info
     fetch(coordsSource)
         .then(function (response) {
@@ -29,7 +29,7 @@ function getApi(coordsSource) {
         var lon = data.coord.lon
         console.log(lon);
 // use those variables to then generate the appropriate api path for the daily/week forecast
-        var finalAPI = "https://api.openweathermap.org/data/2.5/onecall?lat="+ lat + "&lon=" + lon + "&appid=" + APIKey
+        var finalAPI = "https://api.openweathermap.org/data/2.5/onecall?lat="+ lat + "&lon=" + lon + "&units=imperial&appid=" + APIKey
 // fetch the locations info again, this time using the coords into the better api
         fetch(finalAPI)
             .then(function (response) {
@@ -49,7 +49,11 @@ function getApi(coordsSource) {
             var newCityName = city + "  (" + date + ")"
     // push changes of city name to HTML
             cityNameEl.text(newCityName)
-
+    // create desired var for todays temp
+            var newTodayTemp = Math.floor(data.current.temp)
+            console.log(newTodayTemp);
+    // push changes of todays temperature to the HTML
+            todayTempEl.text("Temp: " + newTodayTemp + " °F")
             })
         });
          
