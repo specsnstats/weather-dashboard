@@ -3,6 +3,11 @@ var date = moment().format('L');
 console.log(date);
 var cityNameEl = $("#city-name")
 searchBtnEl.on("click", getApi);
+var todayTempEl = $("#today-temp")
+var todayWindEl = $("#today-wind")
+var todayHumidity = $("#today-humidity")
+var todayUVEl = $("#today-uv")
+var todayUVBadgeEl = $("#today-uv-badge")
 
 
 // retrieve information from the api
@@ -41,8 +46,10 @@ function getApi(coordsSource) {
     // update weather icon src to new icon from API info
             cityNameIconEl.attr("src", icon)
     // create desired var for new city title
-            var newCityName = city + "(" + date + ")"
-            cityNameEl.innerHTML = newCityName
+            var newCityName = city + "  (" + date + ")"
+    // push changes of city name to HTML
+            cityNameEl.text(newCityName)
+
             })
         });
          
