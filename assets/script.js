@@ -8,6 +8,7 @@ var todayWindEl = $("#today-wind")
 var todayHumidity = $("#today-humidity")
 var todayUVEl = $("#today-uv")
 var todayUVBadgeEl = $("#today-uv-badge")
+var h5El = $("h5")
 
 
 // retrieve information from the api
@@ -68,12 +69,67 @@ function getApi(coordsSource) {
             var newTodayUV = data.current.uvi
     // push changes of todays UVI to HTML
             todayUVEl.text("UV Index: " + newTodayUV)
-            })
-        });
-         
-    
+    // for loop that populates all the forecast boxes
+            
+    for (i=0; i < h5El.length ; i++) {
+    // set future day parameter
+        var daysToAdd = 1 + i
+    // set forcast days
+        var newForecastDay = moment().add(daysToAdd, "days").format("L")
+    // push forcast days
+        $(h5El[i]).text(newForecastDay);
+
+    // set forecast icon element list
+        var forecastIconEl = $(".emoji")
+        console.log(forecastIconEl);
+    // set forecast icon reference
+        var forecastIconApi = data.daily[i].weather[0].icon
+        console.log(forecastIconApi);
+    // set new forecast icon variable
+        var newForecastIcon = "http://openweathermap.org/img/wn/" + forecastIconApi + "@2x.png"
+        console.log(newForecastIcon);
+    // push new icon to each element in the list
+        $(forecastIconEl[i]).attr("src", newForecastIcon)
+
+    // set forecast temp variable 
+        var forecastTempEl = $(".temp")
+        console.log(forecastTempEl)
+    // set forecast temp api reference
+        var forecastTempApi = data.daily[i].temp.day
+        console.log(forecastTempApi);
+    // set new forecast temp variable:
+        var newForecastTemp = "Temp: " + forecastTempApi + " °F"
+        console.log(newForecastTemp);
+    // push new temp to each element in the list
+        $(forecastTempEl[i]).text(newForecastTemp)
+
+    // set forecast wind variable 
+        var forecastWindEl = $(".wind")
+        console.log(forecastWindEl)
+    // set forecast wind api reference
+        var forecastWindApi = data.daily[i].wind_speed
+        console.log(forecastWindApi);
+    // set new forecast Wind variable:
+        var newForecastWind = "Wind: " + forecastWindApi + " MPH"
+        console.log(newForecastWind);
+    // push new wind to each element in the list
+        $(forecastWindEl[i]).text(newForecastWind)
+
+    // set forecast Humidity variable 
+      var forecastHumidityEl = $(".humidity")
+      console.log(forecastHumidityEl)
+    // set forecast humidity api reference
+      var forecastHumidityApi = data.daily[i].humidity
+      console.log(forecastHumidityApi);
+    // set new forecast humidity variable:
+      var newForecastHumidity = "Humidity: " + forecastHumidityApi + "%"
+      console.log(newForecastHumidity);
+    // push new humidity to each element in the list
+      $(forecastHumidityEl[i]).text(newForecastHumidity)
+    }
+})
+});   
 }
-// create a then that retrieves the individual information for day 1
 
 // WHEN I search for a city
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
