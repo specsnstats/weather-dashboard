@@ -54,6 +54,20 @@ function getApi(coordsSource) {
             console.log(newTodayTemp);
     // push changes of todays temperature to the HTML
             todayTempEl.text("Temp: " + newTodayTemp + " °F")
+    // create var for today's wind
+            var newTodayWind = data.current.wind_speed
+            console.log(newTodayWind);
+    // push changes of todays wind to HTML
+            todayWindEl.text("Wind: " + newTodayWind + " MPH")
+    // create var for today's humidity
+            var newTodayHumidity = data.current.humidity
+            console.log(newTodayHumidity);
+    // push changes of todays wind to HTML
+            todayHumidity.text("Humidity: " + newTodayHumidity + "%")
+    // create var for today's uv index
+            var newTodayUV = data.current.uvi
+    // push changes of todays UVI to HTML
+            todayUVEl.text("UV Index: " + newTodayUV)
             })
         });
          
