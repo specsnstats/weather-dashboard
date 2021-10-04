@@ -1,23 +1,27 @@
 var searchBtnEl = $("#search-btn");
+var searchHistoryBtnEl = $("search-history-btn")
 var date = moment().format('L');
-console.log(date);
 var cityNameEl = $("#city-name")
-searchBtnEl.on("click", getApi);
 var todayTempEl = $("#today-temp")
 var todayWindEl = $("#today-wind")
 var todayHumidity = $("#today-humidity")
 var todayUVEl = $("#today-uv")
 var todayUVBadgeEl = $("#today-uv-badge")
 var h5El = $("h5")
+var searchHistoryList = $("#search-history-list")
+var searchBtnText = $("#text-box");
+searchBtnEl.on("click", searchBtnRun);
+$("search-history-list").on("click", ".search-history-btn", historyBtnRun)
 
 
 // retrieve information from the api
-function getApi(coordsSource) {
-    var searchBtnText = $("#text-box");
-    var APIKey = "eef440075f231dabd98329edc16d0dae";
+function searchBtnRun(coordsSource) {
     var city = searchBtnText.val();
+    var APIKey = "eef440075f231dabd98329edc16d0dae";
+
     console.log(city);
     var coordsSource = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
+
 // fetch the location info
     fetch(coordsSource)
         .then(function (response) {
@@ -39,6 +43,10 @@ function getApi(coordsSource) {
             .then(function (data) {
             console.log(data);
 // start doing stuff with the info
+    
+    // create button of past search
+        searchHistoryList.append(`<button type="button" class="btn btn-secondary search-history-btn my-2" id="`+ searchBtnText.val() + `">`+ searchBtnText.val() + `</button>`)    
+
     // create weather icon var from API info
             var icon = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png"
             console.log(icon);
@@ -69,7 +77,6 @@ function getApi(coordsSource) {
             var newTodayUV = data.current.uvi
     // push changes of todays UVI to HTML
             todayUVEl.text("UV Index: " + newTodayUV)
-    // for loop that populates all the forecast boxes
             
     for (i=0; i < h5El.length ; i++) {
     // set future day parameter
@@ -127,17 +134,9 @@ function getApi(coordsSource) {
     // push new humidity to each element in the list
       $(forecastHumidityEl[i]).text(newForecastHumidity)
     }
+    // erase the value in the search box
+    searchBtnText.val("")
 })
 });   
+    
 }
-
-// WHEN I search for a city
-// THEN I am presented with current and future conditions for that city and that city is added to the search history
-// WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-// WHEN I view the UV index
-// THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-// WHEN I click on a city in the search history
-// THEN I am again presented with current and future conditions for that city
